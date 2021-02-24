@@ -18,11 +18,11 @@ public class View : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
     }
 
-    public Coin CreateCoin(int index, Vector3 pos)
+    public Coin CreateCoin(Vector3 pos)
     {
         Coin go = Instantiate(coin, pos, Quaternion.identity, parent);
 
-        go.gameObject.name = "Coin " + index;
+        go.gameObject.name = "Coin";
         go.transform.parent = parent;
         go.transform.position = pos;
         
@@ -33,8 +33,13 @@ public class View : MonoBehaviour
         return go;
     }
 
-    public void OnMouseAnimation()
+    public void StartOnMouseAnimation(Coin coin)
     {
+        coin.animator.SetBool("OnMouseEnter", true);
+    }
 
+    public void StopOnMouseAnimation(Coin coin)
+    {
+        coin.animator.SetBool("OnMouseEnter", false);
     }
 }

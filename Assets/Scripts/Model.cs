@@ -17,13 +17,8 @@ public class Model : MonoBehaviour
         
     }
 
-    public List <GameObject> SelectCoin(GameObject coin, List<GameObject> currentSelectedCoinList)
+    public void CreateGrid(int[,] grid)
     {
-        if (!currentSelectedCoinList.Contains(coin))
-        {
-            currentSelectedCoinList.Add(coin);
-        }
 
-        return currentSelectedCoinList;
     }
 }
