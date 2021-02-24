@@ -332,8 +332,8 @@ MonoBehaviour:
   maxSizeX: 5
   maxSizeY: 5
   score: 0
-  turnsRemaining: 0
-  maxCoinsToChain: 2
+  turnsRemaining: 3
+  maxCoinsToChain: 1
   selectedCoin: {fileID: 0}
   chainedCoins: []
   game_state: 0

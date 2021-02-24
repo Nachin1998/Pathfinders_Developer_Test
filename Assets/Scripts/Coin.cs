@@ -12,10 +12,11 @@ public class Coin : MonoBehaviour
         AIR
     }
     [SerializeField] private COIN_TYPE coin_type;
-    [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] public Animator animator;
 
     public COIN_TYPE Coin_type { get { return coin_type; } set { coin_type = value; } }
+    public SpriteRenderer SpriteRenderer { get { return spriteRenderer; } set { spriteRenderer = value; } }
 
     private void Awake()
     {

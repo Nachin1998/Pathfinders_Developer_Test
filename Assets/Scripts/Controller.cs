@@ -18,8 +18,7 @@ public class Controller : MonoBehaviour
     private enum GAME_STATE
     {
         IDLE,
-        COMBINING,
-        EXPLODING
+        COMBINING
     }
     [SerializeField] private GAME_STATE game_state = GAME_STATE.IDLE;
 
@@ -61,59 +60,65 @@ public class Controller : MonoBehaviour
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
+        if (turnsRemaining <= 0)
+            return;
+
         switch (game_state)
         {
             case GAME_STATE.IDLE:
 
-                if (hit)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (hit)
                     {
-                        selectedCoin = hit.transform.gameObject;
+                        chainedCoins.Add(hit.transform.gameObject);
+                        selectedCoin = chainedCoins[chainedCoins.Count - 1];
                         coinTypeToChain = selectedCoin.GetComponent<Coin>().Coin_type;
-                        chainedCoins.Add(selectedCoin);
                         game_state = GAME_STATE.COMBINING;
                     }
-                }                
+                }
                 break;
 
-            case GAME_STATE.COMBINING:                
+            case GAME_STATE.COMBINING:
 
                 if (hit)
                 {
-                    if (hit.transform.gameObject != selectedCoin)
+                    if (hit.transform.gameObject.GetComponent<Coin>().Coin_type == coinTypeToChain)
                     {
-                        if (hit.transform.gameObject.GetComponent<Coin>().Coin_type == coinTypeToChain)
+                        Debug.Log(chainedCoins[chainedCoins.Count - 1].name);
+                        if (hit.transform.position.y == selectedCoin.transform.position.y + view.CoinOffset.y ||
+                            hit.transform.position.y == selectedCoin.transform.position.y - view.CoinOffset.y)
                         {
-                            if (hit.transform.position == new Vector3(selectedCoin.transform.position.x + view.CoinOffset.x, selectedCoin.transform.position.y) ||
-                                hit.transform.position == new Vector3(selectedCoin.transform.position.x - view.CoinOffset.x, selectedCoin.transform.position.y))
+                            if (!chainedCoins.Contains(hit.transform.gameObject))
                             {
                                 chainedCoins.Add(hit.transform.gameObject);
-                                Debug.Log(chainedCoins.Count);                                
                             }
+                            selectedCoin = chainedCoins[chainedCoins.Count - 1];
                         }
                     }
-                        
-                    //coinTypeToChain = hit.transform.gameObject.GetComponent<Coin>().Coin_type;
-                    //game_state = GAME_STATE.COMBINING;
+
                 }
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if(chainedCoins.Count > maxCoinsToChain)
+                    if (chainedCoins.Count > maxCoinsToChain)
                     {
                         for (int i = 0; i < chainedCoins.Count; i++)
                         {
                             Destroy(chainedCoins[i]);
                             game_state = GAME_STATE.IDLE;
                         }
-                    }                    
+                        turnsRemaining--;
+                        chainedCoins.Clear();
+                    }
+                    else
+                    {
+                        chainedCoins.Clear();
+                        game_state = GAME_STATE.IDLE;
+                    }
                 }
                 break;
-
-            case GAME_STATE.EXPLODING:
-                break;
         }
-        
+
     }
 }

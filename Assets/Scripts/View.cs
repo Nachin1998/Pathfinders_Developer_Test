@@ -27,20 +27,10 @@ public class View : MonoBehaviour
         go.transform.position = pos;
         
         int coinType = Random.Range(0, coinSprites.Count);
-        go.spriteRenderer.sprite = coinSprites[coinType];
+        go.SpriteRenderer.sprite = coinSprites[coinType];
         go.Coin_type = (Coin.COIN_TYPE)coinType;
 
         return go;
-    }
-
-    public void StartLineRenderer(Vector3 newPos)
-    {
-        lineRenderer.SetPosition(lineRenderer.positionCount, newPos);
-    }
-    public void UpdateLineRenderer(Vector3 newPos)
-    {
-        lineRenderer.positionCount++;
-        lineRenderer.SetPosition(lineRenderer.positionCount, newPos);
     }
 
     public void OnMouseAnimation()

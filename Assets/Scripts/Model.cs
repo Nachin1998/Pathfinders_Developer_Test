@@ -17,8 +17,13 @@ public class Model : MonoBehaviour
         
     }
 
-    bool CanMoveToPosition()
+    public List <GameObject> SelectCoin(GameObject coin, List<GameObject> currentSelectedCoinList)
     {
-        return false;
+        if (!currentSelectedCoinList.Contains(coin))
+        {
+            currentSelectedCoinList.Add(coin);
+        }
+
+        return currentSelectedCoinList;
     }
 }
