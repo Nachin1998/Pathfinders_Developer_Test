@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public enum Coin_type
+    public enum COIN_TYPE
     {
         WATER,
         EARTH,
         FIRE,
         AIR
     }
-    [SerializeField] public Coin_type coin_type;
+    [SerializeField] private COIN_TYPE coin_type;
     [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] public Animator animator;
+
+    public COIN_TYPE Coin_type { get { return coin_type; } set { coin_type = value; } }
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
 }

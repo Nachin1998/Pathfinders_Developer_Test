@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private int maxSizeX = 0;
+    [SerializeField] private int maxSizeY = 0;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         
+    }
+
+    bool CanMoveToPosition()
+    {
+        return false;
     }
 }
