@@ -16,10 +16,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private int maxCoinsToChain = 0;
     [SerializeField] private GameObject selectedCoin = null;
     [SerializeField] private List <GameObject> chainedCoins = null;
-    [SerializeField] private List <GameObject> extraChainedCoins = null;
-    [SerializeField] private List <Vector2> positions = null;
+    [SerializeField] private List <Coin.COIN_TYPE> coin_typesAllowed = null;
 
-    public static event Action <int> OnTurnChanged = delegate { };
+    private List <GameObject> extraChainedCoins = null;
+    private List <Vector2> positions = null;
+    
+    public event Action <int> OnTurnUpdate = delegate { };
+    public event Action <int> OnScoreUpdate = delegate { };
 
     private enum GAME_STATE
     {
@@ -46,7 +49,7 @@ public class Controller : MonoBehaviour
         {
             for (int j = 0; j < maxSizeY; j++)
             {
-                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0));
+                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
                 index++;
             }
         }
@@ -119,6 +122,7 @@ public class Controller : MonoBehaviour
                 {
                     if (chainedCoins.Count > maxCoinsToChain)
                     {
+                        score += 10 * chainedCoins.Count;
                         for (int i = 0; i < chainedCoins.Count; i++)
                         {
                             Destroy(chainedCoins[i]);
@@ -127,11 +131,12 @@ public class Controller : MonoBehaviour
 
                         for (int i = 0; i < positions.Count; i++)
                         {
-                            extraChainedCoins.Add(view.CreateCoin(positions[i]).gameObject);
+                            extraChainedCoins.Add(view.CreateCoin(positions[i], coin_typesAllowed).gameObject);
                         }
 
                         turnsRemaining--;
-                        OnTurnChanged(turnsRemaining);
+                        OnScoreUpdate(score);
+                        OnTurnUpdate(turnsRemaining);
                         chainedCoins.Clear();
                         positions.Clear();
                     }
@@ -169,7 +174,7 @@ public class Controller : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        OnTurnChanged(turnsRemaining);
+        OnTurnUpdate(turnsRemaining);
         gridCoins = new Coin[maxSizeX, maxSizeY];
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
@@ -179,7 +184,7 @@ public class Controller : MonoBehaviour
         {
             for (int j = 0; j < maxSizeY; j++)
             {
-                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0));
+                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
                 index++;
             }
         }

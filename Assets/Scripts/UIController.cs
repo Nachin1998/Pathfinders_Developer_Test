@@ -9,10 +9,19 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI turnsLeftText;
     public TextMeshProUGUI canKeepPlaying;
 
+    public Controller controller;
+
     void Start()
     {
-        Controller.OnTurnChanged += UpdateTurns;
-        Controller.OnTurnChanged += UpdateCanKeepPlaying;
+        controller.OnTurnUpdate += UpdateTurns;
+        controller.OnTurnUpdate += UpdateCanKeepPlaying;
+
+        controller.OnScoreUpdate += UpdateScore;
+    }
+
+    void UpdateScore(int score)
+    {
+        scoreText.text = "Score: " + score;
     }
 
     void UpdateTurns(int turns)

@@ -256,10 +256,10 @@ RectTransform:
   m_Father: {fileID: 199344329}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.75277084, y: 0.91}
-  m_AnchorMax: {x: 0.9735209, y: 0.9767778}
-  m_AnchoredPosition: {x: 9, y: -12}
-  m_SizeDelta: {x: -23.499146, y: -21}
+  m_AnchorMin: {x: 0.679146, y: 0.887}
+  m_AnchorMax: {x: 0.9931666, y: 0.95829636}
+  m_AnchoredPosition: {x: 8, y: -12}
+  m_SizeDelta: {x: -14.413086, y: -26}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &204416718
 MonoBehaviour:
@@ -283,8 +283,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Turns left: 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2e8c885a7672f1488ad13e1e1288c66, type: 2}
+  m_sharedMaterial: {fileID: 6445808016700196150, guid: c2e8c885a7672f1488ad13e1e1288c66, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -417,7 +417,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: No turns left!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2e8c885a7672f1488ad13e1e1288c66, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &249008692
@@ -531,7 +531,6 @@ MonoBehaviour:
   coinOffset: {x: 1.5, y: 1.5}
   boxColliderSize: {x: 1.2, y: 1.2}
   parent: {fileID: 1948119013}
-  lineRenderer: {fileID: 0}
 --- !u!4 &338661893
 Transform:
   m_ObjectHideFlags: 0
@@ -705,7 +704,9 @@ MonoBehaviour:
   maxCoinsToChain: 1
   selectedCoin: {fileID: 0}
   chainedCoins: []
+  extraChainedCoins: []
   positions: []
+  coin_typesAllowed: 0000000002000000
   game_state: 0
 --- !u!1 &568268957
 GameObject:
@@ -739,10 +740,10 @@ RectTransform:
   m_Father: {fileID: 199344329}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.006, y: 0.91}
-  m_AnchorMax: {x: 0.22047918, y: 0.97400004}
-  m_AnchoredPosition: {x: 6, y: -9}
-  m_SizeDelta: {x: -12.4991455, y: -18}
+  m_AnchorMin: {x: 0.006, y: 0.887}
+  m_AnchorMax: {x: 0.21900001, y: 0.9508519}
+  m_AnchoredPosition: {x: 6, y: -6}
+  m_SizeDelta: {x: -9.4991455, y: -18}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &568268959
 MonoBehaviour:
@@ -766,8 +767,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Score: 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2e8c885a7672f1488ad13e1e1288c66, type: 2}
+  m_sharedMaterial: {fileID: 6445808016700196150, guid: c2e8c885a7672f1488ad13e1e1288c66, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -873,6 +874,7 @@ MonoBehaviour:
   scoreText: {fileID: 568268959}
   turnsLeftText: {fileID: 204416718}
   canKeepPlaying: {fileID: 249008691}
+  controller: {fileID: 377448363}
 --- !u!4 &676621835
 Transform:
   m_ObjectHideFlags: 0
