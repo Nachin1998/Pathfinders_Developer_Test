@@ -10,28 +10,17 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI canKeepPlaying;
 
     public Controller controller;
-
-    void Start()
+    void Awake()
     {
         controller.OnTurnUpdate += UpdateTurns;
-        controller.OnTurnUpdate += UpdateCanKeepPlaying;
-
         controller.OnScoreUpdate += UpdateScore;
-    }
-
-    void UpdateScore(int score)
-    {
-        scoreText.text = "Score: " + score;
     }
 
     void UpdateTurns(int turns)
     {
         turnsLeftText.text = "Turns left: " + turns;
-    }
 
-    void UpdateCanKeepPlaying(int turns)
-    {
-        if(turns <= 0)
+        if (turns <= 0)
         {
             canKeepPlaying.gameObject.SetActive(true);
         }
@@ -39,5 +28,10 @@ public class UIController : MonoBehaviour
         {
             canKeepPlaying.gameObject.SetActive(false);
         }
+    }
+
+    void UpdateScore(int score)
+    {
+        scoreText.text = "Score: " + score;
     }
 }

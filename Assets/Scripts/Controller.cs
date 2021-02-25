@@ -16,11 +16,11 @@ public class Controller : MonoBehaviour
     [SerializeField] private int maxCoinsToChain = 0;
     [SerializeField] private GameObject selectedCoin = null;
     [SerializeField] private List <GameObject> chainedCoins = null;
-    [SerializeField] private List <Coin.COIN_TYPE> coin_typesAllowed = null;
+    [SerializeField] private List <GameObject> extraChainedCoins = null;
+    [SerializeField] private List<Coin.COIN_TYPE> coin_typesAllowed = null;
 
-    private List <GameObject> extraChainedCoins = null;
     private List <Vector2> positions = null;
-    
+
     public event Action <int> OnTurnUpdate = delegate { };
     public event Action <int> OnScoreUpdate = delegate { };
 
@@ -44,6 +44,8 @@ public class Controller : MonoBehaviour
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
 
+        OnTurnUpdate(turnsRemaining);
+
         int index = 0;
         for (int i = 0; i < maxSizeX; i++)
         {
@@ -66,8 +68,7 @@ public class Controller : MonoBehaviour
 
         if (turnsRemaining <= 0)
         {
-            StartCoroutine(RestartGame());
-            
+            StartCoroutine(RestartGame());            
             return;
         }
 
@@ -123,6 +124,7 @@ public class Controller : MonoBehaviour
                     if (chainedCoins.Count > maxCoinsToChain)
                     {
                         score += 10 * chainedCoins.Count;
+
                         for (int i = 0; i < chainedCoins.Count; i++)
                         {
                             Destroy(chainedCoins[i]);
@@ -162,6 +164,7 @@ public class Controller : MonoBehaviour
                 if(gridCoins[i, j] != null)
                 {
                     Destroy(gridCoins[i, j].gameObject);
+                    //yield return new WaitForSeconds(0.1f);
                 }
             }
         }
@@ -174,6 +177,9 @@ public class Controller : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
+        score = 0;
+
+        OnScoreUpdate(score);
         OnTurnUpdate(turnsRemaining);
         gridCoins = new Coin[maxSizeX, maxSizeY];
         chainedCoins = new List<GameObject>();

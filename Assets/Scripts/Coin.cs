@@ -14,6 +14,7 @@ public class Coin : MonoBehaviour
     [SerializeField] private COIN_TYPE coin_type;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] public Animator animator;
+    [SerializeField] public AudioSource audioSource;
     public COIN_TYPE Coin_type { get { return coin_type; } set { coin_type = value; } }
     public SpriteRenderer SpriteRenderer { get { return spriteRenderer; } set { spriteRenderer = value; } }
 
@@ -21,6 +22,22 @@ public class Coin : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
+    public void SpawnBubblePop()
+    {
+        audioSource.PlayOneShot(audioSource.clip, 0.5f);
+    }
+
+    private void OnMouseEnter()
+    {
+        animator.SetBool("OnMouseEnter", true);
+        audioSource.PlayOneShot(audioSource.clip, 1f);
+    }
+
+    private void OnMouseExit()
+    {
+        animator.SetBool("OnMouseEnter", false);
+    }
 }
