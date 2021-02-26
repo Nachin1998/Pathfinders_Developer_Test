@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
     {
         controller.OnTurnUpdate += UpdateTurns;
         controller.OnScoreUpdate += UpdateScore;
-    }
+    } 
 
     void UpdateTurns(int turns)
     {
@@ -33,5 +33,14 @@ public class UIController : MonoBehaviour
     void UpdateScore(int score)
     {
         scoreText.text = "Score: " + score;
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif        
     }
 }

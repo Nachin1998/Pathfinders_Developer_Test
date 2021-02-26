@@ -5,7 +5,6 @@ using UnityEngine;
 public class Model : MonoBehaviour
 {
     //*Cricket noises*
-
     public bool CanMoveToPosition(GameObject coin1, GameObject coin2, Vector2 offset)
     {
         //Checks diagonal chaining

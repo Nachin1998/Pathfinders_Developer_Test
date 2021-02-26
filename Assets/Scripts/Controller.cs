@@ -164,7 +164,6 @@ public class Controller : MonoBehaviour
 
         StartCoroutine(CreateCoins());
     }
-
     IEnumerator CreateCoins()
     {
         for (int i = 0; i < maxSizeX; i++)
@@ -176,7 +175,6 @@ public class Controller : MonoBehaviour
             }
         }
     }
-
     IEnumerator RestartGame()
     {
         turns = auxTurns;
