@@ -8,9 +8,6 @@ public class Controller : MonoBehaviour
     [SerializeField] Model model;
     [SerializeField] View view;
 
-    [SerializeField] private int maxSizeX = 0;
-    [SerializeField] private int maxSizeY = 0;
-
     [SerializeField] private int score = 0;
     [SerializeField] private int turns = 0;
     [SerializeField] private int maxCoinsToChain = 0;
@@ -37,15 +34,18 @@ public class Controller : MonoBehaviour
     private GAME_STATE game_state = GAME_STATE.IDLE;
 
     private Coin.COIN_TYPE coinTypeToChain;
-    //private int[,] grid = null;
+    private int[,] grid = null;
     private int auxTurns;
     private Coin[,] gridCoins = null;
+    private Vector2[,] gridPositions = null;
     private Camera cam;
 
+    int maxX = 0;
+    int maxY = 0;
     void Start()
     {
-        //grid = new int[maxSizeX, maxSizeY];
-        gridCoins = new Coin[maxSizeX, maxSizeY];
+        grid = model.GetGrid(ref maxX, ref maxY);
+        gridCoins = new Coin[maxX, maxY];
         cam = Camera.main;
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
@@ -56,9 +56,9 @@ public class Controller : MonoBehaviour
 
         InitGrid();
 
-        float coinRes = Screen.currentResolution.width * Mathf.Max(maxSizeX, maxSizeY);
+        float coinRes = Screen.currentResolution.width * Mathf.Max(maxX, maxY);
         cam.orthographicSize = 9 / (115200f / coinRes) * 9;
-        cam.transform.position = new Vector3((maxSizeX - 1) * view.CoinOffset.x / 2, (maxSizeY - 1) * view.CoinOffset.y / 2, cam.transform.position.z);
+        cam.transform.position = new Vector3((maxX - 1) * view.CoinOffset.x / 2, (maxY - 1) * view.CoinOffset.y / 2, cam.transform.position.z);
     }
 
     private void Update()
@@ -158,30 +158,35 @@ public class Controller : MonoBehaviour
 
     void InitGrid()
     {
-        gridCoins = new Coin[maxSizeX, maxSizeY];
+        gridCoins = new Coin[maxX, maxY];
+        gridPositions = new Vector2[maxX, maxY];
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
 
         StartCoroutine(CreateCoins());
     }
+
     IEnumerator CreateCoins()
     {
-        for (int i = 0; i < maxSizeX; i++)
+        for (int i = 0; i < maxX; i++)
         {
-            for (int j = 0; j < maxSizeY; j++)
+            for (int j = 0; j < maxY; j++)
             {
                 gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
+                gridPositions[i, j] = gridCoins[i, j].transform.position;
+
                 yield return null;
             }
         }
     }
+
     public IEnumerator RestartGame()
     {
         turns = auxTurns;
 
-        for (int i = 0; i < maxSizeX; i++)
+        for (int i = 0; i < maxX; i++)
         {
-            for (int j = 0; j < maxSizeY; j++)
+            for (int j = 0; j < maxY; j++)
             {
                 if(gridCoins[i, j] != null)
                 {

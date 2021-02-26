@@ -13,6 +13,7 @@ public class Coin : MonoBehaviour
     }
     [SerializeField] private COIN_TYPE coin_type;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Vector2 startingPos;
 
     public Animator animator;
     public AudioSource audioSource;
@@ -25,7 +26,9 @@ public class Coin : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-    }
+
+        startingPos = transform.position;
+    }    
 
     public void SpawnBubblePop()
     {

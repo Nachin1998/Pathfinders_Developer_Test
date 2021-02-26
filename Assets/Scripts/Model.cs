@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
-    //*Cricket noises*
+    [SerializeField] private int maxSizeX = 0;
+    [SerializeField] private int maxSizeY = 0;
+
+    int[,] grid;
+
+    public int[,] GetGrid(ref int maxX, ref int maxY)
+    {
+        maxX = maxSizeX;
+        maxY = maxSizeY;
+
+        return grid;
+    }
+
     public bool CanMoveToPosition(GameObject coin1, GameObject coin2, Vector2 offset)
     {
         //Checks diagonal chaining

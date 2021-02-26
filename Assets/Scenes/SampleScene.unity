@@ -700,8 +700,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 1455805143}
   view: {fileID: 338661892}
-  maxSizeX: 7
-  maxSizeY: 7
   score: 0
   turns: 10
   maxCoinsToChain: 3
@@ -1210,6 +1208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eda0150400f20848a321babf48e26db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSizeX: 5
+  maxSizeY: 5
 --- !u!1 &1792433431
 GameObject:
   m_ObjectHideFlags: 0
