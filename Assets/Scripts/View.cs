@@ -10,9 +10,16 @@ public class View : MonoBehaviour
     [SerializeField] private Vector2 boxColliderSize = Vector2.zero;
     [SerializeField] private Transform parent = null;
 
+    [SerializeField] private LineRenderer lineRenderer = null;
+
     private int[] maxTypes;
 
     public Vector2 CoinOffset { get { return coinOffset; } }
+
+    private void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
 
     public Coin CreateCoin(Vector3 pos, List<Coin.COIN_TYPE> typesAllowed)
     {
@@ -34,5 +41,21 @@ public class View : MonoBehaviour
         go.Coin_type = (Coin.COIN_TYPE)coinType;
 
         return go;
+    }
+
+    public void ClearLine()
+    {
+        lineRenderer.positionCount = 0;
+    }
+
+    public void AddLine(Vector3 newPos)
+    {
+        lineRenderer.positionCount++;
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPos);
+    }
+
+    public void EraseLine()
+    {
+        lineRenderer.positionCount--;
     }
 }

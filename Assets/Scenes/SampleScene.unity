@@ -531,6 +531,7 @@ MonoBehaviour:
   coinOffset: {x: 1.5, y: 1.5}
   boxColliderSize: {x: 1.2, y: 1.2}
   parent: {fileID: 1948119013}
+  lineRenderer: {fileID: 0}
 --- !u!4 &338661893
 Transform:
   m_ObjectHideFlags: 0
@@ -552,7 +553,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338661891}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -564,7 +565,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c3a122b3f617af142b16f85caeb706ab, type: 2}
+  - {fileID: 2100000, guid: bbce2c747871a2747a498cdd0e8204c3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -585,9 +586,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -704,7 +703,7 @@ MonoBehaviour:
   score: 0
   turns: 10
   maxCoinsToChain: 3
-  coin_typesAllowed: 00000000010000000200000003000000
+  coin_typesAllowed: 0000000001000000
   musicAudioSource: {fileID: 377448364}
   SFXAudioSource: {fileID: 377448365}
   wrongSFX: {fileID: 8300000, guid: 32c45d5f0a86d014ca46f5452d52fc79, type: 3}

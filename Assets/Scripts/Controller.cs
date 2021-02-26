@@ -68,7 +68,7 @@ public class Controller : MonoBehaviour
 
         if (turns <= 0)
         {
-            StartCoroutine(RestartGame());            
+            StartCoroutine(RestartGame());
             return;
         }
 
@@ -87,8 +87,11 @@ public class Controller : MonoBehaviour
                 {
                     if (hit)
                     {
+                        view.AddLine(hit.transform.position);
+
                         positions.Add(hit.transform.position);
                         chainedCoins.Add(hit.transform.gameObject);
+
                         selectedCoin = chainedCoins[chainedCoins.Count - 1];
                         coinTypeToChain = selectedCoin.GetComponent<Coin>().Coin_type;
                         game_state = GAME_STATE.COMBINING;
@@ -102,22 +105,11 @@ public class Controller : MonoBehaviour
                 {
                     if (hit.transform.gameObject.GetComponent<Coin>().Coin_type == coinTypeToChain)
                     {
-                        if (hit.transform.position.y == selectedCoin.transform.position.y + view.CoinOffset.y ||
-                            hit.transform.position.y == selectedCoin.transform.position.y - view.CoinOffset.y)
+                        if (model.CanMoveToPosition(hit.transform.gameObject, selectedCoin, view.CoinOffset))
                         {
                             if (!chainedCoins.Contains(hit.transform.gameObject))
                             {
-                                chainedCoins.Add(hit.transform.gameObject);
-                                positions.Add(hit.transform.position);
-                                selectedCoin = chainedCoins[chainedCoins.Count - 1];
-                            }
-                        }
-
-                        if (hit.transform.position.x == selectedCoin.transform.position.x + view.CoinOffset.x ||
-                            hit.transform.position.x == selectedCoin.transform.position.x - view.CoinOffset.x)
-                        {
-                            if (!chainedCoins.Contains(hit.transform.gameObject))
-                            {
+                                view.AddLine(new Vector3(hit.transform.position.x, hit.transform.position.y, -1));
                                 chainedCoins.Add(hit.transform.gameObject);
                                 positions.Add(hit.transform.position);
                                 selectedCoin = chainedCoins[chainedCoins.Count - 1];
@@ -153,11 +145,12 @@ public class Controller : MonoBehaviour
                     }
                     else
                     {
-                        SFXAudioSource.PlayOneShot(wrongSFX, 0.8f);
+                        SFXAudioSource.PlayOneShot(wrongSFX, 0.5f);
                         chainedCoins.Clear();
                         positions.Clear();
                         game_state = GAME_STATE.IDLE;
                     }
+                    view.ClearLine();
                 }
                 break;
         }
@@ -169,11 +162,17 @@ public class Controller : MonoBehaviour
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
 
+        StartCoroutine(CreateCoins());
+    }
+
+    IEnumerator CreateCoins()
+    {
         for (int i = 0; i < maxSizeX; i++)
         {
             for (int j = 0; j < maxSizeY; j++)
             {
                 gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
+                yield return null;
             }
         }
     }
