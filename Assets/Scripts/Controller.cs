@@ -175,7 +175,7 @@ public class Controller : MonoBehaviour
             }
         }
     }
-    IEnumerator RestartGame()
+    public IEnumerator RestartGame()
     {
         turns = auxTurns;
 

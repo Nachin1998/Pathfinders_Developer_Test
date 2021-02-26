@@ -35,6 +35,11 @@ public class UIController : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public void ResetGrid()
+    {
+        StartCoroutine(controller.RestartGame());
+    }
+
     public void ExitGame()
     {
 #if UNITY_EDITOR
