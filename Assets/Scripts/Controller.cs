@@ -12,12 +12,17 @@ public class Controller : MonoBehaviour
     [SerializeField] private int maxSizeY = 0;
 
     [SerializeField] private int score = 0;
-    [SerializeField] private int turnsRemaining = 0;
+    [SerializeField] private int turns = 0;
     [SerializeField] private int maxCoinsToChain = 0;
-    [SerializeField] private GameObject selectedCoin = null;
-    [SerializeField] private List <GameObject> chainedCoins = null;
-    [SerializeField] private List <GameObject> extraChainedCoins = null;
     [SerializeField] private List<Coin.COIN_TYPE> coin_typesAllowed = null;
+    
+    public AudioSource musicAudioSource;
+    public AudioSource SFXAudioSource;
+    public AudioClip wrongSFX;
+
+    [SerializeField] private List <GameObject> chainedCoins = null;
+    [SerializeField] private List <GameObject> newSpawnedCoins = null;
+    private GameObject selectedCoin = null;
 
     private List <Vector2> positions = null;
 
@@ -29,32 +34,27 @@ public class Controller : MonoBehaviour
         IDLE,
         COMBINING
     }
-    [SerializeField] private GAME_STATE game_state = GAME_STATE.IDLE;
+    private GAME_STATE game_state = GAME_STATE.IDLE;
 
     private Coin.COIN_TYPE coinTypeToChain;
-    private int[,] grid = null;
+    //private int[,] grid = null;
+    private int auxTurns;
     private Coin[,] gridCoins = null;
     private Camera cam;
 
     void Start()
     {
-        grid = new int[maxSizeX, maxSizeY];
+        //grid = new int[maxSizeX, maxSizeY];
         gridCoins = new Coin[maxSizeX, maxSizeY];
         cam = Camera.main;
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
+        auxTurns = turns;
 
-        OnTurnUpdate(turnsRemaining);
+        musicAudioSource.pitch = 1;
+        OnTurnUpdate(turns);
 
-        int index = 0;
-        for (int i = 0; i < maxSizeX; i++)
-        {
-            for (int j = 0; j < maxSizeY; j++)
-            {
-                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
-                index++;
-            }
-        }
+        InitGrid();
 
         float coinRes = Screen.currentResolution.width * Mathf.Max(maxSizeX, maxSizeY);
         cam.orthographicSize = 9 / (115200f / coinRes) * 9;
@@ -66,10 +66,17 @@ public class Controller : MonoBehaviour
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-        if (turnsRemaining <= 0)
+        if (turns <= 0)
         {
             StartCoroutine(RestartGame());            
             return;
+        }
+
+        float turnsPercentage = ((float)turns / (float)auxTurns) * 100f;
+
+        if (turnsPercentage <= 25f)
+        {
+            musicAudioSource.pitch = Mathf.Lerp(musicAudioSource.pitch, 1.2f, 2 * Time.deltaTime);
         }
 
         switch (game_state)
@@ -102,8 +109,8 @@ public class Controller : MonoBehaviour
                             {
                                 chainedCoins.Add(hit.transform.gameObject);
                                 positions.Add(hit.transform.position);
+                                selectedCoin = chainedCoins[chainedCoins.Count - 1];
                             }
-                            selectedCoin = chainedCoins[chainedCoins.Count - 1];
                         }
 
                         if (hit.transform.position.x == selectedCoin.transform.position.x + view.CoinOffset.x ||
@@ -113,37 +120,40 @@ public class Controller : MonoBehaviour
                             {
                                 chainedCoins.Add(hit.transform.gameObject);
                                 positions.Add(hit.transform.position);
+                                selectedCoin = chainedCoins[chainedCoins.Count - 1];
                             }
-                            selectedCoin = chainedCoins[chainedCoins.Count - 1];
                         }
                     }
                 }
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (chainedCoins.Count > maxCoinsToChain)
+                    if (chainedCoins.Count >= maxCoinsToChain)
                     {
                         score += 10 * chainedCoins.Count;
 
                         for (int i = 0; i < chainedCoins.Count; i++)
                         {
                             Destroy(chainedCoins[i]);
-                            game_state = GAME_STATE.IDLE;
                         }
 
                         for (int i = 0; i < positions.Count; i++)
                         {
-                            extraChainedCoins.Add(view.CreateCoin(positions[i], coin_typesAllowed).gameObject);
+                            newSpawnedCoins.Add(view.CreateCoin(positions[i], coin_typesAllowed).gameObject);
                         }
 
-                        turnsRemaining--;
+                        turns--;
+
                         OnScoreUpdate(score);
-                        OnTurnUpdate(turnsRemaining);
+                        OnTurnUpdate(turns);
+
                         chainedCoins.Clear();
                         positions.Clear();
+                        game_state = GAME_STATE.IDLE;
                     }
                     else
                     {
+                        SFXAudioSource.PlayOneShot(wrongSFX, 0.8f);
                         chainedCoins.Clear();
                         positions.Clear();
                         game_state = GAME_STATE.IDLE;
@@ -153,9 +163,24 @@ public class Controller : MonoBehaviour
         }
     }
 
+    void InitGrid()
+    {
+        gridCoins = new Coin[maxSizeX, maxSizeY];
+        chainedCoins = new List<GameObject>();
+        positions = new List<Vector2>();
+
+        for (int i = 0; i < maxSizeX; i++)
+        {
+            for (int j = 0; j < maxSizeY; j++)
+            {
+                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
+            }
+        }
+    }
+
     IEnumerator RestartGame()
     {
-        turnsRemaining = 3;
+        turns = auxTurns;
 
         for (int i = 0; i < maxSizeX; i++)
         {
@@ -169,30 +194,19 @@ public class Controller : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < extraChainedCoins.Count; i++)
+        for (int i = 0; i < newSpawnedCoins.Count; i++)
         {
-            Destroy(extraChainedCoins[i]);
+            Destroy(newSpawnedCoins[i]);
         }
-        extraChainedCoins.Clear();
+        newSpawnedCoins.Clear();
 
         yield return new WaitForSeconds(2f);
 
         score = 0;
-
+        musicAudioSource.pitch = 1;
         OnScoreUpdate(score);
-        OnTurnUpdate(turnsRemaining);
-        gridCoins = new Coin[maxSizeX, maxSizeY];
-        chainedCoins = new List<GameObject>();
-        positions = new List<Vector2>();
+        OnTurnUpdate(turns);
 
-        int index = 0;
-        for (int i = 0; i < maxSizeX; i++)
-        {
-            for (int j = 0; j < maxSizeY; j++)
-            {
-                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
-                index++;
-            }
-        }
+        InitGrid();
     }
 }

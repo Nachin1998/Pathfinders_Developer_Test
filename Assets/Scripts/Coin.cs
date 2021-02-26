@@ -13,8 +13,10 @@ public class Coin : MonoBehaviour
     }
     [SerializeField] private COIN_TYPE coin_type;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] public Animator animator;
-    [SerializeField] public AudioSource audioSource;
+
+    public Animator animator;
+    public AudioSource audioSource;
+
     public COIN_TYPE Coin_type { get { return coin_type; } set { coin_type = value; } }
     public SpriteRenderer SpriteRenderer { get { return spriteRenderer; } set { spriteRenderer = value; } }
 

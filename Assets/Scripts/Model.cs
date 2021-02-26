@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
-    [SerializeField] private int maxSizeX = 0;
-    [SerializeField] private int maxSizeY = 0;
+    //*Cricket noises*
+
     void Start()
     {
         
@@ -15,10 +15,5 @@ public class Model : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void CreateGrid(int[,] grid)
-    {
-
     }
 }
