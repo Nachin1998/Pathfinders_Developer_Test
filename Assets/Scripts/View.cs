@@ -7,7 +7,6 @@ public class View : MonoBehaviour
     [SerializeField] private Coin coinPrefab = null;
     [SerializeField] private List<Sprite> coinSprites = null;
     [SerializeField] private Vector2 coinOffset = Vector2.zero;
-    [SerializeField] private Vector2 boxColliderSize = Vector2.zero;
     [SerializeField] private Transform parent = null;
 
     [SerializeField] private LineRenderer lineRenderer = null;
@@ -16,18 +15,20 @@ public class View : MonoBehaviour
 
     public Vector2 CoinOffset { get { return coinOffset; } }
 
+    private List<GameObject> fallingCoins = null;
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        fallingCoins = new List<GameObject>();
     }
 
-    public Coin CreateCoin(Vector3 pos, List<Coin.COIN_TYPE> typesAllowed)
+    public Coin CreateCoin(int index, Vector3 pos, List<Coin.COIN_TYPE> typesAllowed)
     {
         Coin go = Instantiate(coinPrefab, pos, Quaternion.identity, parent);        
 
-        go.gameObject.name = "Coin";
-        go.transform.parent = parent;
+        go.gameObject.name = "Coin " + index;
         go.transform.position = pos;
+        go.transform.parent = parent;
 
         maxTypes = new int[typesAllowed.Count];
 

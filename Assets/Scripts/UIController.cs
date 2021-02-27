@@ -37,7 +37,8 @@ public class UIController : MonoBehaviour
 
     public void ResetGrid()
     {
-        StartCoroutine(controller.RestartGame());
+        if(!controller.isRestartingGame)
+            StartCoroutine(controller.RestartGame());
     }
 
     public void ExitGame()

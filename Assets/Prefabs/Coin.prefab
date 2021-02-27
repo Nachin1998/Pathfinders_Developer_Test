@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5617168541333840291}
   - component: {fileID: -1777126955280158344}
   - component: {fileID: 853554832}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coin
   m_TagString: Coin
   m_Icon: {fileID: 0}
@@ -100,6 +100,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coin_type: 0
   spriteRenderer: {fileID: 0}
+  col2D: {fileID: 0}
+  startingPos: {x: 0, y: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   animator: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!61 &5617168541333840291
@@ -126,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 1.2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &-1777126955280158344
 Animator:

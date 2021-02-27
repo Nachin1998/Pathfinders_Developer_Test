@@ -13,7 +13,9 @@ public class Coin : MonoBehaviour
     }
     [SerializeField] private COIN_TYPE coin_type;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Collider2D col2D;
     [SerializeField] private Vector2 startingPos;
+    [SerializeField] private LayerMask layerMask;
 
     public Animator animator;
     public AudioSource audioSource;
@@ -24,11 +26,27 @@ public class Coin : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        col2D = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+    }
+    
+    void Update()
+    {
+        if (transform.position.y <= 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0);
+            return;
+        }
 
-        startingPos = transform.position;
-    }    
+        RaycastHit2D hit2D = Physics2D.Raycast(transform.position - new Vector3(0, 0.6f), new Vector2(0, -1.5f), 0.5f);
+        Debug.DrawRay(transform.position - new Vector3(0, 0.6f), new Vector3(0, -1.5f));
+        
+        if (!hit2D)
+        {
+            transform.position += Vector3.down * 2 * Time.deltaTime;
+        }
+    }
 
     public void SpawnBubblePop()
     {

@@ -17,6 +17,11 @@ public class Model : MonoBehaviour
         return grid;
     }
 
+    //public IEnumerator DropCoinDown(GameObject go)
+    //{
+    //    yield return null;
+    //}
+
     public bool CanMoveToPosition(GameObject coin1, GameObject coin2, Vector2 offset)
     {
         //Checks diagonal chaining

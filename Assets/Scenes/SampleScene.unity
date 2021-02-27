@@ -174,7 +174,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -531,7 +531,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367047d85cfe6614993ef0c1e17b31f8, type: 3}
   - {fileID: 21300000, guid: 099b87e46ca7e2a48815670b4778effb, type: 3}
   coinOffset: {x: 1.5, y: 1.5}
-  boxColliderSize: {x: 1.2, y: 1.2}
   parent: {fileID: 1948119013}
   lineRenderer: {fileID: 0}
 --- !u!4 &338661893
@@ -702,13 +701,14 @@ MonoBehaviour:
   view: {fileID: 338661892}
   score: 0
   turns: 10
-  maxCoinsToChain: 3
+  minCoinsToChain: 3
   coin_typesAllowed: 00000000010000000200000003000000
   musicAudioSource: {fileID: 377448364}
   SFXAudioSource: {fileID: 377448365}
   wrongSFX: {fileID: 8300000, guid: 32c45d5f0a86d014ca46f5452d52fc79, type: 3}
   chainedCoins: []
   newSpawnedCoins: []
+  isRestartingGame: 0
 --- !u!82 &377448364
 AudioSource:
   m_ObjectHideFlags: 0
