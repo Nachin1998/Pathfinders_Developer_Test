@@ -128,22 +128,6 @@ public class Controller : MonoBehaviour
                 {
                     if (chainedCoins.Count >= minCoinsToChain)
                     {
-                        score += 10 * chainedCoins.Count;
-
-                        for (int i = 0; i < chainedCoins.Count; i++)
-                        {
-                            Destroy(chainedCoins[i]);
-                        }
-                        SpawnFallingNewCoins(positions);
-                        turns--;
-
-                        
-                        OnScoreUpdate(score);
-                        OnTurnUpdate(turns);
-
-                        chainedCoins.Clear();
-                        positions.Clear();
-                        
                         game_state = GAME_STATE.DROPPING;
                     }
                     else
@@ -158,6 +142,21 @@ public class Controller : MonoBehaviour
                 break;
 
             case GAME_STATE.DROPPING:
+
+                score += 10 * chainedCoins.Count;
+
+                for (int i = 0; i < chainedCoins.Count; i++)
+                {
+                    Destroy(chainedCoins[i]);
+                }
+                SpawnFallingNewCoins(positions);
+                turns--;
+
+                OnScoreUpdate(score);
+                OnTurnUpdate(turns);
+
+                chainedCoins.Clear();
+                positions.Clear();
                 game_state = GAME_STATE.IDLE;
                 break;
         }
@@ -177,9 +176,8 @@ public class Controller : MonoBehaviour
     {
         for (int i = 0; i < positions.Count; i++)
         {
-            newSpawnedCoins.Add(view.CreateCoin(0, new Vector3(positions[i].x, positions[i].y + maxY + view.CoinOffset.y), coin_typesAllowed).gameObject);
+            newSpawnedCoins.Add(view.CreateCoin(0, new Vector3(positions[i].x, positions[i].y + (1.5f * maxY)), coin_typesAllowed).gameObject);
         }
-        //newSpawnedCoins.Add(view.CreateCoin(0, positions[i], coin_typesAllowed).gameObject);
     }
 
     IEnumerator CreateCoins()

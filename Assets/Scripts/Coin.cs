@@ -15,12 +15,10 @@ public class Coin : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Collider2D col2D;
     [SerializeField] private Vector2 startingPos;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private float coinFallSpeed;
 
     [HideInInspector] public float fallSpeed;
-    public Animator animator;
-    public AudioSource audioSource;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public AudioSource audioSource;
 
     public COIN_TYPE Coin_type { get { return coin_type; } set { coin_type = value; } }
     public SpriteRenderer SpriteRenderer { get { return spriteRenderer; } set { spriteRenderer = value; } }
@@ -54,7 +52,7 @@ public class Coin : MonoBehaviour
         else
         {
             transform.position = Vector3.Lerp(transform.position, hit2D.transform.position + new Vector3(0, 1.5f), fallSpeed * Time.deltaTime);
-        }
+        }        
     }
 
     public void StopSpawningAnimation()
