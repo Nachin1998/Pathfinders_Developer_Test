@@ -39,12 +39,16 @@ public class Coin : MonoBehaviour
             return;
         }
 
-        RaycastHit2D hit2D = Physics2D.Raycast(transform.position - new Vector3(0, 0.6f), new Vector2(0, -1.5f), 0.5f);
+        RaycastHit2D hit2D = Physics2D.Raycast(transform.position - new Vector3(0, 0.6f), new Vector2(0, -1.5f));
         Debug.DrawRay(transform.position - new Vector3(0, 0.6f), new Vector3(0, -1.5f));
-        
+
         if (!hit2D)
         {
-            transform.position += Vector3.down * 2 * Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , 0), 10 * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, hit2D.transform.position + new Vector3(0, 1.5f), 10 * Time.deltaTime);
         }
     }
 

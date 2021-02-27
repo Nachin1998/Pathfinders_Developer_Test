@@ -9,6 +9,11 @@ public class Model : MonoBehaviour
 
     int[,] grid;
 
+    public static float RoundToNearestHalf(float a)
+    {
+        return a = Mathf.Round(a * 2f) * 0.5f;
+    }
+
     public int[,] GetGrid(ref int maxX, ref int maxY)
     {
         maxX = maxSizeX;
@@ -17,10 +22,23 @@ public class Model : MonoBehaviour
         return grid;
     }
 
-    //public IEnumerator DropCoinDown(GameObject go)
-    //{
-    //    yield return null;
-    //}
+    public IEnumerator DropCoinDown(GameObject go)
+    {
+        if (go.transform.position.y <= 0)
+        {
+            go.transform.position = new Vector3(go.transform.position.x, 0);
+            yield break;
+        }
+
+        RaycastHit2D hit2D = Physics2D.Raycast(go.transform.position - new Vector3(0, 0.6f), new Vector2(0, -1.5f), 0.5f);
+        Debug.DrawRay(go.transform.position - new Vector3(0, 0.6f), new Vector3(0, -1.5f));
+
+        if (!hit2D)
+        {
+            transform.position += Vector3.down * 2 * Time.deltaTime;
+        }
+        yield return null;
+    }
 
     public bool CanMoveToPosition(GameObject coin1, GameObject coin2, Vector2 offset)
     {
