@@ -134,12 +134,7 @@ public class Controller : MonoBehaviour
                         {
                             Destroy(chainedCoins[i]);
                         }
-
-                        //for (int i = 0; i < positions.Count; i++)
-                        //{
-                        //    newSpawnedCoins.Add(view.CreateCoin(0, positions[i], coin_typesAllowed).gameObject);
-                        //}
-
+                        SpawnFallingNewCoins(positions);
                         turns--;
 
                         
@@ -176,7 +171,15 @@ public class Controller : MonoBehaviour
         positions = new List<Vector2>();
 
         StartCoroutine(CreateCoins());
-        //CreateCoins();
+    }
+
+    void SpawnFallingNewCoins(List<Vector2> positions)
+    {
+        for (int i = 0; i < positions.Count; i++)
+        {
+            newSpawnedCoins.Add(view.CreateCoin(0, new Vector3(positions[i].x, positions[i].y + maxY + view.CoinOffset.y), coin_typesAllowed).gameObject);
+        }
+        //newSpawnedCoins.Add(view.CreateCoin(0, positions[i], coin_typesAllowed).gameObject);
     }
 
     IEnumerator CreateCoins()
@@ -205,7 +208,6 @@ public class Controller : MonoBehaviour
                 if(gridCoins[i, j] != null)
                 {
                     Destroy(gridCoins[i, j].gameObject);
-                    //yield return new WaitForSeconds(0.1f);
                 }
             }
         }
