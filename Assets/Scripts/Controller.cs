@@ -163,33 +163,9 @@ public class Controller : MonoBehaviour
                 break;
 
             case GAME_STATE.DROPPING:
-                //for (int i = 0; i < maxX; i++)
-                //{
-                //    for (int j = 0; j < maxY; j++)
-                //    {
-                //        if(gridCoins[i, j] != null)
-                //        {
-                //            if (gridCoins[i, j].transform.position.y != 0)
-                //            {
-                //                StartCoroutine(model.DropCoinDown(gridCoins[i, j].gameObject));
-                //            }
-                //        }
-                //    }
-                //}
                 game_state = GAME_STATE.IDLE;
                 break;
         }
-
-        //for (int i = 0; i < maxX; i++)
-        //{
-        //    for (int j = 0; j < maxY; j++)
-        //    {
-        //        if (gridCoins[i, j] != null)
-        //        {
-        //            model.DropCoinDown(gridCoins[i, j].gameObject);
-        //        }
-        //    }
-        //}
     }
 
     void InitGrid()
@@ -199,11 +175,11 @@ public class Controller : MonoBehaviour
         chainedCoins = new List<GameObject>();
         positions = new List<Vector2>();
 
-        //StartCoroutine(CreateCoins());
-        CreateCoins();
+        StartCoroutine(CreateCoins());
+        //CreateCoins();
     }
 
-    void CreateCoins()
+    IEnumerator CreateCoins()
     {
         int index = 0;
         for (int i = 0; i < maxX; i++)
@@ -213,7 +189,7 @@ public class Controller : MonoBehaviour
                 gridCoins[i, j] = view.CreateCoin(index, new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
                 gridPositions[i, j] = gridCoins[i, j].transform.position;
                 index++;
-                //yield return null;
+                yield return null;
             }
         }
     }

@@ -16,7 +16,9 @@ public class Coin : MonoBehaviour
     [SerializeField] private Collider2D col2D;
     [SerializeField] private Vector2 startingPos;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private float coinFallSpeed;
 
+    [HideInInspector] public float fallSpeed;
     public Animator animator;
     public AudioSource audioSource;
 
@@ -33,6 +35,9 @@ public class Coin : MonoBehaviour
     
     void Update()
     {
+        if (animator.GetBool("Spawn"))
+            return;
+
         if (transform.position.y <= 0)
         {
             transform.position = new Vector3(transform.position.x, 0);
@@ -44,12 +49,17 @@ public class Coin : MonoBehaviour
 
         if (!hit2D)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , 0), 10 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , 0), fallSpeed * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, hit2D.transform.position + new Vector3(0, 1.5f), 10 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, hit2D.transform.position + new Vector3(0, 1.5f), fallSpeed * Time.deltaTime);
         }
+    }
+
+    public void StopSpawningAnimation()
+    {
+        animator.SetBool("Spawn", false);
     }
 
     public void SpawnBubblePop()

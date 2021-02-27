@@ -9,11 +9,6 @@ public class Model : MonoBehaviour
 
     int[,] grid;
 
-    public static float RoundToNearestHalf(float a)
-    {
-        return a = Mathf.Round(a * 2f) * 0.5f;
-    }
-
     public int[,] GetGrid(ref int maxX, ref int maxY)
     {
         maxX = maxSizeX;

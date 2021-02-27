@@ -7,6 +7,7 @@ public class View : MonoBehaviour
     [SerializeField] private Coin coinPrefab = null;
     [SerializeField] private List<Sprite> coinSprites = null;
     [SerializeField] private Vector2 coinOffset = Vector2.zero;
+    [SerializeField] private float coinFallSpeed = 0;
     [SerializeField] private Transform parent = null;
 
     [SerializeField] private LineRenderer lineRenderer = null;
@@ -29,6 +30,7 @@ public class View : MonoBehaviour
         go.gameObject.name = "Coin " + index;
         go.transform.position = pos;
         go.transform.parent = parent;
+        go.fallSpeed = coinFallSpeed;
 
         maxTypes = new int[typesAllowed.Count];
 

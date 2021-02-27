@@ -310,7 +310,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 46.5
   m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 52.25
   m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -531,6 +531,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 367047d85cfe6614993ef0c1e17b31f8, type: 3}
   - {fileID: 21300000, guid: 099b87e46ca7e2a48815670b4778effb, type: 3}
   coinOffset: {x: 1.5, y: 1.5}
+  coinFallSpeed: 15
   parent: {fileID: 1948119013}
   lineRenderer: {fileID: 0}
 --- !u!4 &338661893
@@ -985,7 +986,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 38.05
   m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1208,8 +1209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eda0150400f20848a321babf48e26db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSizeX: 5
-  maxSizeY: 5
+  maxSizeX: 10
+  maxSizeY: 10
 --- !u!1 &1792433431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,7 +1791,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 39.55
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
