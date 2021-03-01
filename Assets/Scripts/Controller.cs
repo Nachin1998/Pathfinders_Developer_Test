@@ -12,19 +12,20 @@ public class Controller : MonoBehaviour
     [SerializeField] private int turns = 0;
     [SerializeField] private int minCoinsToChain = 0;
     [SerializeField] private List<Coin.COIN_TYPE> coin_typesAllowed = null;
-    
+
     public AudioSource musicAudioSource;
     public AudioSource SFXAudioSource;
+    public AudioClip correctSFX;
     public AudioClip wrongSFX;
 
-    [SerializeField] private List <GameObject> chainedCoins = null;
-    [SerializeField] private List <GameObject> newSpawnedCoins = null;
-    private GameObject selectedCoin = null;
+    [SerializeField] private List<GameObject> chainedCoins = null;
+    [SerializeField] private List<GameObject> newSpawnedCoins = null;
+    [SerializeField] private GameObject selectedCoin = null;
 
-    private List <Vector2> positions = null;
+    private List<Vector2> positions = null;
 
-    public event Action <int> OnTurnUpdate = delegate { };
-    public event Action <int> OnScoreUpdate = delegate { };
+    public event Action<int> OnTurnUpdate = delegate { };
+    public event Action<int> OnScoreUpdate = delegate { };
     [HideInInspector] public bool isRestartingGame = false;
 
     private enum GAME_STATE
@@ -42,8 +43,8 @@ public class Controller : MonoBehaviour
     private Vector2[,] gridPositions = null;
     private Camera cam;
 
-    int maxX = 0;
-    int maxY = 0;
+    private int maxX = 0;
+    private int maxY = 0;
 
     void Start()
     {
@@ -82,11 +83,11 @@ public class Controller : MonoBehaviour
         if (turnsPercentage <= 25f)
         {
             musicAudioSource.pitch = Mathf.Lerp(musicAudioSource.pitch, 1.2f, 2 * Time.deltaTime);
-        }       
+        }
 
         switch (game_state)
         {
-            
+
             case GAME_STATE.IDLE:
 
                 if (Input.GetMouseButtonDown(0))
@@ -116,12 +117,12 @@ public class Controller : MonoBehaviour
                             if (model.CanMoveToPosition(hit.transform.gameObject, selectedCoin, view.CoinOffset))
                             {
                                 view.AddLine(new Vector3(hit.transform.position.x, hit.transform.position.y, -1));
-                                chainedCoins.Add(hit.transform.gameObject);                                
+                                chainedCoins.Add(hit.transform.gameObject);
                                 positions.Add(hit.transform.position);
                                 selectedCoin = chainedCoins[chainedCoins.Count - 1];
                             }
                         }
-                    }                 
+                    }
                 }
 
                 if (Input.GetMouseButtonDown(1))
@@ -149,6 +150,7 @@ public class Controller : MonoBehaviour
             case GAME_STATE.DROPPING:
 
                 score += 10 * chainedCoins.Count;
+                SFXAudioSource.PlayOneShot(correctSFX, 0.4f);
 
                 for (int i = 0; i < chainedCoins.Count; i++)
                 {
@@ -188,7 +190,7 @@ public class Controller : MonoBehaviour
     {
         for (int i = newSpawnedCoins.Count - 1; i > 0; i--)
         {
-            if(newSpawnedCoins[i] == null)
+            if (newSpawnedCoins[i] == null)
             {
                 newSpawnedCoins.RemoveAt(i);
             }
@@ -225,7 +227,7 @@ public class Controller : MonoBehaviour
         {
             for (int j = 0; j < maxY; j++)
             {
-                if(gridCoins[i, j] != null)
+                if (gridCoins[i, j] != null)
                 {
                     Destroy(gridCoins[i, j].gameObject);
                 }

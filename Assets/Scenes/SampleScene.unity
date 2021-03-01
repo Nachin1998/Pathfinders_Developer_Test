@@ -706,9 +706,11 @@ MonoBehaviour:
   coin_typesAllowed: 00000000010000000200000003000000
   musicAudioSource: {fileID: 377448364}
   SFXAudioSource: {fileID: 377448365}
+  correctSFX: {fileID: 8300000, guid: 2a048af6e0a37a14990ee15446b3c39d, type: 3}
   wrongSFX: {fileID: 8300000, guid: 32c45d5f0a86d014ca46f5452d52fc79, type: 3}
   chainedCoins: []
   newSpawnedCoins: []
+  selectedCoin: {fileID: 0}
   isRestartingGame: 0
 --- !u!82 &377448364
 AudioSource:
