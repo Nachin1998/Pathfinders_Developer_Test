@@ -74,7 +74,7 @@ public class Controller : MonoBehaviour
 
         if (turns <= 0)
         {
-            StartCoroutine(RestartGame());
+            StartCoroutine(RestartGame(2f));
             return;
         }
 
@@ -219,7 +219,7 @@ public class Controller : MonoBehaviour
         positions.Clear();
     }
 
-    public IEnumerator RestartGame()
+    public IEnumerator RestartGame(float delay)
     {
         turns = auxTurns;
         isRestartingGame = true;
@@ -240,7 +240,7 @@ public class Controller : MonoBehaviour
         }
         newSpawnedCoins.Clear();
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(delay);
 
         score = 0;
         musicAudioSource.pitch = 1;
