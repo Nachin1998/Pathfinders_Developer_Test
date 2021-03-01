@@ -12,11 +12,12 @@ public class Coin : MonoBehaviour
         AIR
     }
     [SerializeField] private COIN_TYPE coin_type;
+    [SerializeField] private Vector2 startingPos;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Collider2D col2D;
-    [SerializeField] private Vector2 startingPos;
 
     [HideInInspector] public float fallSpeed;
+
     [HideInInspector] public Animator animator;
     [HideInInspector] public AudioSource audioSource;
 
@@ -45,14 +46,18 @@ public class Coin : MonoBehaviour
         RaycastHit2D hit2D = Physics2D.Raycast(transform.position - new Vector3(0, 0.6f), new Vector2(0, -1.5f));
         Debug.DrawRay(transform.position - new Vector3(0, 0.6f), new Vector3(0, -1.5f));
 
+        Vector2 destination = Vector2.zero;
+
         if (!hit2D)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , 0), fallSpeed * Time.deltaTime);
+            destination = new Vector3(transform.position.x, 0);
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, hit2D.transform.position + new Vector3(0, 1.5f), fallSpeed * Time.deltaTime);
+            destination = hit2D.transform.position + new Vector3(0, 1.5f);
         }        
+
+        transform.position = Vector3.Lerp(transform.position, destination, fallSpeed * Time.deltaTime);
     }
 
     public void StopSpawningAnimation()

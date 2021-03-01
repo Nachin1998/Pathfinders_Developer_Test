@@ -17,7 +17,7 @@ public class Model : MonoBehaviour
         return grid;
     }
 
-    public IEnumerator DropCoinDown(GameObject go)
+    /*public IEnumerator DropCoinDown(GameObject go)
     {
         if (go.transform.position.y <= 0)
         {
@@ -33,7 +33,7 @@ public class Model : MonoBehaviour
             transform.position += Vector3.down * 2 * Time.deltaTime;
         }
         yield return null;
-    }
+    }*/
 
     public bool CanMoveToPosition(GameObject coin1, GameObject coin2, Vector2 offset)
     {
@@ -46,14 +46,14 @@ public class Model : MonoBehaviour
             return false;
         }
 
-        //Checks further away chaining
-        if ((coin1.transform.position.x > coin2.transform.position.x + offset.x ||
-             coin1.transform.position.x < coin2.transform.position.x - offset.x))
+        //Checks further away chaining with room for error
+        if ((coin1.transform.position.x >= coin2.transform.position.x + offset.x + 0.1f ||
+             coin1.transform.position.x <= coin2.transform.position.x - offset.x - 0.1f))
         {
             return false;
         }
-        if ((coin1.transform.position.y > coin2.transform.position.y + offset.y ||
-             coin1.transform.position.y < coin2.transform.position.y - offset.y))
+        if ((coin1.transform.position.y >= coin2.transform.position.y + offset.y + 0.1f ||
+             coin1.transform.position.y <= coin2.transform.position.y - offset.y - 0.1f))
         {
             return false;
         }

@@ -701,7 +701,7 @@ MonoBehaviour:
   model: {fileID: 1455805143}
   view: {fileID: 338661892}
   score: 0
-  turns: 5
+  turns: 10
   minCoinsToChain: 3
   coin_typesAllowed: 00000000010000000200000003000000
   musicAudioSource: {fileID: 377448364}

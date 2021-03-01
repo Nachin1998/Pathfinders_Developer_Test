@@ -23,11 +23,11 @@ public class View : MonoBehaviour
         fallingCoins = new List<GameObject>();
     }
 
-    public Coin CreateCoin(int index, Vector3 pos, List<Coin.COIN_TYPE> typesAllowed)
+    public Coin CreateCoin(Vector3 pos, List<Coin.COIN_TYPE> typesAllowed)
     {
         Coin go = Instantiate(coinPrefab, pos, Quaternion.identity, parent);        
 
-        go.gameObject.name = "Coin " + index;
+        go.gameObject.name = "Coin";
         go.transform.position = pos;
         go.transform.parent = parent;
         go.fallSpeed = coinFallSpeed;

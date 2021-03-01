@@ -109,19 +109,25 @@ public class Controller : MonoBehaviour
 
                 if (hit)
                 {
-                    if (hit.transform.gameObject.GetComponent<Coin>().Coin_type == coinTypeToChain)
+                    if (!chainedCoins.Contains(hit.transform.gameObject))
                     {
-                        if (model.CanMoveToPosition(hit.transform.gameObject, selectedCoin, view.CoinOffset))
+                        if (hit.transform.gameObject.GetComponent<Coin>().Coin_type == coinTypeToChain)
                         {
-                            if (!chainedCoins.Contains(hit.transform.gameObject))
+                            if (model.CanMoveToPosition(hit.transform.gameObject, selectedCoin, view.CoinOffset))
                             {
                                 view.AddLine(new Vector3(hit.transform.position.x, hit.transform.position.y, -1));
-                                chainedCoins.Add(hit.transform.gameObject);
+                                chainedCoins.Add(hit.transform.gameObject);                                
                                 positions.Add(hit.transform.position);
                                 selectedCoin = chainedCoins[chainedCoins.Count - 1];
                             }
                         }
-                    }
+                    }                 
+                }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    CancelChaining();
+                    game_state = GAME_STATE.IDLE;
                 }
 
                 if (Input.GetMouseButtonUp(0))
@@ -133,8 +139,7 @@ public class Controller : MonoBehaviour
                     else
                     {
                         SFXAudioSource.PlayOneShot(wrongSFX, 0.5f);
-                        chainedCoins.Clear();
-                        positions.Clear();
+                        RefreshChain();
                         game_state = GAME_STATE.IDLE;
                     }
                     view.ClearLine();
@@ -155,8 +160,7 @@ public class Controller : MonoBehaviour
                 OnScoreUpdate(score);
                 OnTurnUpdate(turns);
 
-                chainedCoins.Clear();
-                positions.Clear();
+                RefreshChain();
                 game_state = GAME_STATE.IDLE;
                 break;
         }
@@ -176,23 +180,41 @@ public class Controller : MonoBehaviour
     {
         for (int i = 0; i < positions.Count; i++)
         {
-            newSpawnedCoins.Add(view.CreateCoin(0, new Vector3(positions[i].x, positions[i].y + (1.5f * maxY)), coin_typesAllowed).gameObject);
+            newSpawnedCoins.Add(view.CreateCoin(new Vector3(positions[i].x, positions[i].y + (1.5f * maxY)), coin_typesAllowed).gameObject);
         }
+    }
+
+    void RefreshChain()
+    {
+        for (int i = newSpawnedCoins.Count - 1; i > 0; i--)
+        {
+            if(newSpawnedCoins[i] == null)
+            {
+                newSpawnedCoins.RemoveAt(i);
+            }
+        }
+        chainedCoins.Clear();
+        positions.Clear();
     }
 
     IEnumerator CreateCoins()
     {
-        int index = 0;
         for (int i = 0; i < maxX; i++)
         {
             for (int j = 0; j < maxY; j++)
             {
-                gridCoins[i, j] = view.CreateCoin(index, new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
+                gridCoins[i, j] = view.CreateCoin(new Vector3(view.CoinOffset.x * i, view.CoinOffset.y * j, 0), coin_typesAllowed);
                 gridPositions[i, j] = gridCoins[i, j].transform.position;
-                index++;
                 yield return null;
             }
         }
+    }
+
+    void CancelChaining()
+    {
+        view.ClearLine();
+        chainedCoins.Clear();
+        positions.Clear();
     }
 
     public IEnumerator RestartGame()
